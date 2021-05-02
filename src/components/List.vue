@@ -7,10 +7,10 @@
   <table class="table table-striped jejumap mt-3">
   <thead>
     <tr>
-      <th width="50px" scope="col">위치</th>
-      <th width="100px" scope="col">상호</th>
-      <th scope="col">주요메뉴</th>
-      <th scope="col">정보</th>
+      <th style="width: 15%" scope="col">위치</th>
+      <th style="width: 20%" scope="col">상호</th>
+      <th style="width: 30%" scope="col">주요메뉴</th>
+      <th style="width: 35%" scope="col">정보</th>
     </tr>
   </thead>
   <tbody>
@@ -41,6 +41,7 @@ export default {
     computed: {
       filteredList() {
         return this.datas.filter(data => {
+          console.log(data.대표메뉴);
           return data.대표메뉴.includes(this.search)
         })
       }
@@ -53,4 +54,5 @@ export default {
     text-align: left;
     font-size: 12px;
 }
+table {table-layout: fixed;}
 </style>

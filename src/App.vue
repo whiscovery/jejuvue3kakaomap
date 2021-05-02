@@ -53,7 +53,6 @@ export default {
                       this.datas = this.tempdata;
                   }
                   );
-    console.log("0");
     // google json data end
   },
 };

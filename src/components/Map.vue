@@ -1,7 +1,8 @@
 <template>
-<span v-for="menu,i in menus" :key="i" class="badge bg-info text-dark ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</span>
+<button type="button" class="btn btn-warning btn-sm" @click="getData">데이터로딩</button>
+<button v-for="menu,i in menus" :key="i" type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</button>
 <div id="map" style="width:100%;height:600px;"></div>
-
+<p id="result"></p>
 </template>
 
 <script>
@@ -21,6 +22,8 @@ export default {
       jejus: [],
       tempdata: [],
       temps: [],
+      blank: [],
+      deleteMarker: [],
     }
   },
   props: {
@@ -41,7 +44,6 @@ export default {
         'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=93e7ae567c188033ab3c4af5d997866a&libraries=services,clusterer,drawing';
       document.head.appendChild(script);
     }
-    this.getData();
    
   },
   methods: {
@@ -52,6 +54,7 @@ export default {
           this.datas.forEach((element)=>{ // eslint-disable-line no-unused-vars
             var coords={};
             var temp={}
+
             // 주소로 좌표를 검색합니다
             geocoder.addressSearch(element.주소, (result, status)=> {
                 // 정상적으로 검색이 완료됐으면 
@@ -66,7 +69,6 @@ export default {
                 }
             });
           });
-        this.drawData();
     },
     filterData(menu){
       switch(menu) {
@@ -231,6 +233,11 @@ export default {
       
     },
     drawData(data){
+     
+           for(var j=0; j<this.deleteMarker.length; j++){
+              this.deleteMarker[j].setMap(null);
+      }
+
 
           var mapContainer = document.getElementById('map'), // 지도를 표시할 div
               mapOption = {
@@ -239,23 +246,10 @@ export default {
               };
           var map = new kakao.maps.Map(mapContainer, mapOption); // eslint-disable-line no-unused-vars
 
-          // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-          var mapTypeControl = new kakao.maps.MapTypeControl();
-
-          // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
-          // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
-          map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
-          // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-          var zoomControl = new kakao.maps.ZoomControl();
-          map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-
-
           /* 마커 관련 함수들 */
           // 마커를 표시할 위치와 title 객체 배열입니다 
           var positions = data;
-
+          
               //var imageSrc = "marker/marker일식.png"; 
           for (var i = 0; i < positions.length; i ++) {
               // 마커 이미지의 이미지 주소입니다
@@ -267,6 +261,7 @@ export default {
               // 마커 이미지를 생성합니다    
               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
               
+           
               // 마커를 생성합니다
               var marker = new kakao.maps.Marker({  // eslint-disable-line no-unused-vars
                   map: map, // 마커를 표시할 지도
@@ -275,14 +270,27 @@ export default {
                   image : markerImage, // 마커 이미지 
                   clickable: true
               });
+              this.deleteMarker.push(marker);
+              
+          
               //console.log(positions[i].latlng); //positions[i].latlng.La, positions[i].latlng.Ma
-              // 마커 표시
-              marker.setMap(map);
+              marker.setMap(map);  // 마커 표시
+              var content = '<span class="badge rounded-pill bg-dark mt-2 information">'+positions[i].title +'</span>';
+
+              // 커스텀 오버레이가 표시될 위치입니다 
+
+              // 커스텀 오버레이를 생성합니다
+              var customOverlay = new kakao.maps.CustomOverlay({
+                  position: positions[i].latlng,
+                  content: content  
+              });
+
+              // 커스텀 오버레이를 지도에 표시합니다
+              customOverlay.setMap(map);
               // 클릭이벤트 
-                   
+
               //클릭이벤트 끝
           }
-
 
           /* 마커 관련 함수 끝 */
     },
@@ -297,4 +305,10 @@ export default {
 </script>
 
 <style>
+.information {
+  font-size: 10px;
+  font-weight: 300;
+  opacity: 0.7;
+  z-index: 25;
+}
 </style>
