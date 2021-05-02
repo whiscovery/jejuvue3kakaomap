@@ -1,5 +1,5 @@
 <template>
-<button type="button" class="btn btn-warning btn-sm" @click="getData">데이터로딩</button>
+<button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData">데이터로딩</button>
 <button v-for="menu,i in menus" :key="i" type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</button>
 <div id="map" style="width:100%;height:600px;"></div>
 <p id="result"></p>
@@ -22,8 +22,7 @@ export default {
       jejus: [],
       tempdata: [],
       temps: [],
-      blank: [],
-      deleteMarker: [],
+      markers: [],
     }
   },
   props: {
@@ -63,6 +62,7 @@ export default {
                     temp = {
                       title: element.상호,
                       category: element.분류,
+                      info: element.정보,
                       latlng: coords
                     };
                     this.jejus.push(temp);
@@ -233,30 +233,30 @@ export default {
       
     },
     drawData(data){
-     
-           for(var j=0; j<this.deleteMarker.length; j++){
-              this.deleteMarker[j].setMap(null);
-      }
-
 
           var mapContainer = document.getElementById('map'), // 지도를 표시할 div
               mapOption = {
                 center: new kakao.maps.LatLng(33.360701, 126.570667), // 지도의 중심좌표
                 level: 9, // 지도의 확대 레벨
               };
+              // 지도 생성
           var map = new kakao.maps.Map(mapContainer, mapOption); // eslint-disable-line no-unused-vars
+
+          // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+          
 
           /* 마커 관련 함수들 */
           // 마커를 표시할 위치와 title 객체 배열입니다 
           var positions = data;
           
+            
               //var imageSrc = "marker/marker일식.png"; 
           for (var i = 0; i < positions.length; i ++) {
               // 마커 이미지의 이미지 주소입니다
               var imageSrc = "marker/marker"+positions[i].category+".png"; 
               
               // 마커 이미지의 이미지 크기 입니다
-              var imageSize = new kakao.maps.Size(24, 35); 
+              var imageSize = new kakao.maps.Size(20, 30); 
               
               // 마커 이미지를 생성합니다    
               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
@@ -270,11 +270,33 @@ export default {
                   image : markerImage, // 마커 이미지 
                   clickable: true
               });
-              this.deleteMarker.push(marker);
-              
+
+               // 마커에 표시할 인포윈도우를 생성합니다 
+              var infoContent = '<p style="font-size:9px;text-align:left">'+positions[i].info +'</p>';
+              var iwRemoveable = true;
+              var infowindow = new kakao.maps.InfoWindow({
+                  content: infoContent, // 인포윈도우에 표시할 내용
+                  removable : iwRemoveable
+              });
+
+              // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+              // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+              (function(marker, infowindow) {
+                  // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+                  kakao.maps.event.addListener(marker, 'click', function() {
+                      infowindow.open(map, marker);
+                  });
+
+                  // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+                  kakao.maps.event.addListener(marker, 'mouseout', function() {
+                      infowindow.close();
+                  });
+              })(marker, infowindow);
+                        
           
               //console.log(positions[i].latlng); //positions[i].latlng.La, positions[i].latlng.Ma
               marker.setMap(map);  // 마커 표시
+              this.markers.push(marker);
               var content = '<span class="badge rounded-pill bg-dark mt-2 information">'+positions[i].title +'</span>';
 
               // 커스텀 오버레이가 표시될 위치입니다 
@@ -287,8 +309,9 @@ export default {
 
               // 커스텀 오버레이를 지도에 표시합니다
               customOverlay.setMap(map);
+              
               // 클릭이벤트 
-
+              
               //클릭이벤트 끝
           }
 

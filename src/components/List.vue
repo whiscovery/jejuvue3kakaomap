@@ -41,8 +41,8 @@ export default {
     computed: {
       filteredList() {
         return this.datas.filter(data => {
-          console.log(data.대표메뉴);
-          return data.대표메뉴.includes(this.search)
+          console.log(this.search);
+          return data["대표메뉴"].includes(this.search)
         })
       }
   }
