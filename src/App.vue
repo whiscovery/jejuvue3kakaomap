@@ -2,7 +2,7 @@
 <Menu />
 <div class="container">
   
-  <router-view :datas="datas" :menus="menus"></router-view>
+  <router-view :datas="datas" :jejumenus="jejumenus" :wholemenus="wholemenus"></router-view>
 
 </div>
 
@@ -28,7 +28,8 @@ export default {
       datas: [],
       tempdata: [],
       jejus: [],
-      menus: ['전체','돼지고기','소고기','국수','해장국','회','일식','양식','해물요리','해물라면','한식','토속음식','카페','숙소','갈곳','기타'],
+      jejumenus: ['돼지고기','소고기','국수','해장국','회','일식','양식','해물요리','해물라면','한식','토속음식','카페','숙소','갈곳','기타'],
+      wholemenus: ['실내포장마차','노포','국밥','돼지고기','소고기','회','이자카야','일식','양식','한식','맥주','치킨','바','카페','기타'],
       
     }
   },

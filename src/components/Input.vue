@@ -1,73 +1,51 @@
 <template>
-  <h3>입력</h3>
-  <div class="container mt-3">
+  <div class="container mt-5">
 
-    <div class="form-check form-check-inline">
+    <div class="form-check form-check-inline mb-3">
         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" @click="jejuview=true;wholeview=false">
-        <label class="form-check-label" for="inlineRadio1">1</label>
+        <label class="form-check-label" for="inlineRadio1">제주맛집</label>
     </div>
     <div class="form-check form-check-inline">
         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" @click="jejuview=false;wholeview=true">
-        <label class="form-check-label" for="inlineRadio2">2</label>
+        <label class="form-check-label" for="inlineRadio2">전국맛집</label>
     </div>
     <div class="jeju-input" v-if="jejuview == true">
-        <form class="row g-3">
-            <div class="col-md-6">
-                <input type="email" class="form-control" id="inputEmail4" placeholder="상호">
+        <form class="row g-3" id="jejuForm" @submit.prevent="sendJejuPost">
+            <div class="col-md-6 form-floating">
+                <input type="text" class="form-control" v-model="jejuname" placeholder="상호">
+                <label for="jejuname">상호</label>
             </div>
-            <div class="col-md-3">
-                <select id="inputState" class="form-select">
-                <option selected>분류</option>
-                <option>...</option>
-                <option>...</option>
-                <option>...</option>
+            <div class="col-md-3 form-floating">
+                <select v-model="jejucategory" class="form-select">
+                <option v-for="jejumenu, i in jejumenus" :key="i">{{jejumenu}}</option>
                 </select>
+                <label for="jejucategory">분류</label>
             </div>
 
-            <div class="col-md-3">
-                <input type="text" class="form-control" id="inputAddress" placeholder="대표 메뉴">
+            <div class="col-md-3 form-floating">
+                <input type="text" class="form-control" v-model="jejumenu" placeholder="대표 메뉴">
+                <label for="jejumenu">대표 메뉴</label>
             </div>
 
-            <div class="col-md-2">
-                <select id="inputState" class="form-select">
-                <option selected>위치</option>
-                <option>...</option>
-                <option>...</option>
-                <option>...</option>
+            <div class="col-md-2 form-floating">
+                <select v-model="jejulocation" class="form-select">
+                <option>북부</option>
+                <option>남부</option>
+                <option>동부</option>
+                <option>중부</option>
                 </select>
+                <label for="jejulocation">위치</label>
             </div>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="inputAddress" placeholder="주소입력">
+            <div class="col-md-10 form-floating">
+                <input type="text" class="form-control" v-model="jejuaddress" placeholder="주소입력">
+                <label for="jejuaddress">주소</label>
             </div>
-            <div class="col-12">
-                <label for="inputAddress2" class="form-label">관련 정보 입력</label>
-                <textarea class="form-control" aria-label="With textarea"></textarea>
-            </div>
-            <div class="col-md-6">
-                <label for="inputCity" class="form-label">City</label>
-                <input type="text" class="form-control" id="inputCity">
-            </div>
-            <div class="col-md-4">
-                <label for="inputState" class="form-label">State</label>
-                <select id="inputState" class="form-select">
-                <option selected>Choose...</option>
-                <option>...</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="inputZip" class="form-label">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
+            <div class="col-12 form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" v-model="jejuinfo" style="height: 100px"></textarea>
+                <label for="jejuinfo">관련 정보</label>
             </div>
             <div class="col-12">
-                <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
-                </div>
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button class="btn btn-primary">등록</button>
             </div>
             </form>
     </div>
@@ -87,15 +65,55 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'input',
     data(){
         return {
             jejuview : false,
             wholeview : true,
+            jejuData : {},
+            jejuname : '',
+            jejucategory : '',
+            jejumenu: '',
+            jejulocation : '',
+            jejuaddress : '',
+            jejuinfo : '',
+
+            }
+
+        },
+    props: {
+        jejumenus: Array,
+        wholemenus: Array,
+    },
+    methods: {
+        sendJejuPost() {
+            // https://script.google.com/macros/s/AKfycbxYZ-FEzZLeEHo-f6zUOk4jBuRfA8xchPEjJ-cMmXKysixRNVoq/exec
+            // this.jejuData = {
+            //     "상호" : this.jejuname,
+            //     "위치" : this.jejulocation,
+            //     "분류" : this.jejucategory,
+            //     "대표메뉴" : this.jejumenus,
+            //     "주소" : this.jejuaddress,
+            //     "정보" : this.jejuinfo
+            // }
+            axios.post('//script.google.com/macros/s/AKfycbxYZ-FEzZLeEHo-f6zUOk4jBuRfA8xchPEjJ-cMmXKysixRNVoq/exec' , {
+                "상호" : this.jejuname,
+                "위치" : this.jejulocation,
+                "분류" : this.jejucategory,
+                "대표메뉴" : this.jejumenus,
+                "주소" : this.jejuaddress,
+                "정보" : this.jejuinfo
+            })
+            .then((res)=>{
+                console.log(res.data);
+            }, ()=>{
+                console.log('failed');
+            })
 
         }
-    },
+    }
 
 }
 </script>

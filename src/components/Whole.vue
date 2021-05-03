@@ -1,6 +1,7 @@
 <template>
 <button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData">데이터로딩(먼저 클릭!!)</button>
-<button v-for="menu,i in menus" :key="i" type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</button>
+<button type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData('전체')">전체</button>
+<button v-for="menu,i in wholemenus" :key="i" type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</button>
 <div id="map" style="width:100%;height:600px;"></div>
 </template>
 
@@ -23,10 +24,10 @@ export default {
       변환정보: [],
       temps: [],
       markers: [],
-      menus: ['전체','실내포장마차','노포','국밥','돼지고기','소고기','회','이자카야','일식','양식','한식','맥주','치킨','바','카페','기타']
     }
   },
   props: {
+    wholemenus: Array,
   },
 
   async created(){
