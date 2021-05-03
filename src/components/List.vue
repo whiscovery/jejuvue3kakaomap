@@ -40,9 +40,9 @@ export default {
     },
     computed: {
       filteredList() {
-        return this.datas.filter(data => {
-          console.log(this.search);
-          return data["대표메뉴"].includes(this.search)
+        return this.datas.filter((data) => {
+          // console.log(data["상호"] + "-" + data["대표메뉴"] + ":" + data["대표메뉴"].includes(this.search));
+          return data["대표메뉴"].includes(this.search);
         })
       }
   }

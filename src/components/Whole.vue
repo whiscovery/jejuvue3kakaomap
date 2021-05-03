@@ -2,32 +2,55 @@
 <button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData">데이터로딩(먼저 클릭!!)</button>
 <button v-for="menu,i in menus" :key="i" type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</button>
 <div id="map" style="width:100%;height:600px;"></div>
-<p id="result"></p>
 </template>
 
 <script>
 //93e7ae567c188033ab3c4af5d997866a
 //구글 시트 키: 1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ
-//json: https://spreadsheets.google.com/feeds/list/1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ/1/public/full?alt=json
+//json: https://spreadsheets.google.com/feeds/list/1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ/5/public/full?alt=json
 
 import axios from 'axios'// eslint-disable-line no-unused-vars
 
 
 export default {
-  name: 'Map',
+  name: 'Whole',
   components: {
   },
   data() {
     return {
-      jejus: [],
-      tempdata: [],
+      전국맛집정보: [],
+      임시배열: [],
+      변환정보: [],
       temps: [],
       markers: [],
+      menus: ['전체','실내포장마차','노포','국밥','돼지고기','소고기','회','이자카야','일식','양식','한식','맥주','치킨','바','카페','기타']
     }
   },
   props: {
-      datas: Array,
-      menus: Array,
+  },
+
+  async created(){
+    // google json data 받아오기
+      await axios.get('https://spreadsheets.google.com/feeds/list/1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ/6/public/full?alt=json')
+                  .then((result)=>{
+                      let temp = result.data['feed']['entry'];
+                      for(var i=0; i<temp.length; i++){
+                          var Object = {
+                              '상호': temp[i]['gsx$상호']['$t'],
+                              '주소': temp[i]['gsx$주소']['$t'],
+                              '분류': temp[i]['gsx$분류']['$t'],
+                              '위치': temp[i]['gsx$위치']['$t'],
+                              
+                              '대표메뉴': temp[i]['gsx$대표메뉴']['$t'],
+                              '정보': temp[i]['gsx$정보']['$t'],
+                              '기타': temp[i]['gsx$기타']['$t']
+                          };
+                          this.임시배열.push(Object);
+                      }
+                      this.전국맛집정보 = this.임시배열;
+                  }
+                  );
+    // google json data end
   },
   async mounted() {
      
@@ -50,7 +73,7 @@ export default {
                 // 주소-좌표 변환 객체를 생성합니다
           var geocoder = new kakao.maps.services.Geocoder();
 
-          this.datas.forEach((element)=>{ // eslint-disable-line no-unused-vars
+          this.전국맛집정보.forEach((element)=>{ // eslint-disable-line no-unused-vars
             var coords={};
             var temp={}
 
@@ -63,9 +86,10 @@ export default {
                       title: element.상호,
                       category: element.분류,
                       info: element.정보,
+                      from: element.기타,
                       latlng: coords
                     };
-                    this.jejus.push(temp);
+                    this.변환정보.push(temp);
                 }
             });
           });
@@ -73,11 +97,41 @@ export default {
     filterData(menu){
       switch(menu) {
         case '전체': 
-          this.drawData(this.jejus);
+          this.drawData(this.변환정보);
+          break;
+
+        case '실내포장마차':  
+          this.변환정보.forEach(e => {
+            if(e.category == '실내포장마차'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '노포':  
+          this.변환정보.forEach(e => {
+            if(e.category == '노포'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '국밥':  
+          this.변환정보.forEach(e => {
+            if(e.category == '국밥'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
           break;
 
         case '돼지고기':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '돼지고기'){
              
               this.temps.push(e);
@@ -87,7 +141,7 @@ export default {
           break;
 
         case '소고기':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '소고기'){
              
               this.temps.push(e);
@@ -96,28 +150,8 @@ export default {
           this.drawData(this.temps);
           break;
 
-        case '국수':  
-          this.jejus.forEach(e => {
-            if(e.category == '국수'){
-             
-              this.temps.push(e);
-            }
-          })
-          this.drawData(this.temps);
-          break;
-
-        case '해장국':  
-          this.jejus.forEach(e => {
-            if(e.category == '해장국'){
-             
-              this.temps.push(e);
-            }
-          })
-          this.drawData(this.temps);
-          break;
-
         case '회':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '회'){
              
               this.temps.push(e);
@@ -126,8 +160,18 @@ export default {
           this.drawData(this.temps);
           break;
 
+        case '이자카야':  
+          this.변환정보.forEach(e => {
+            if(e.category == '이자카야'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
         case '일식':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '일식'){
              
               this.temps.push(e);
@@ -137,7 +181,7 @@ export default {
           break;
 
         case '양식':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '양식'){
              
               this.temps.push(e);
@@ -146,28 +190,8 @@ export default {
           this.drawData(this.temps);
           break;
 
-        case '해물요리':  
-          this.jejus.forEach(e => {
-            if(e.category == '해물요리'){
-             
-              this.temps.push(e);
-            }
-          })
-          this.drawData(this.temps);
-          break;
-
-        case '해물라면':  
-          this.jejus.forEach(e => {
-            if(e.category == '해물라면'){
-             
-              this.temps.push(e);
-            }
-          })
-          this.drawData(this.temps);
-          break;
-
         case '한식':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '한식'){
              
               this.temps.push(e);
@@ -176,9 +200,32 @@ export default {
           this.drawData(this.temps);
           break;
 
-        case '토속음식':  
-          this.jejus.forEach(e => {
-            if(e.category == '토속음식'){
+
+
+        case '맥주':  
+          this.변환정보.forEach(e => {
+            if(e.category == '맥주'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+
+        case '치킨':  
+          this.변환정보.forEach(e => {
+            if(e.category == '치킨'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '바':  
+          this.변환정보.forEach(e => {
+            if(e.category == '바'){
              
               this.temps.push(e);
             }
@@ -187,7 +234,7 @@ export default {
           break;
 
         case '카페':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '카페'){
              
               this.temps.push(e);
@@ -196,28 +243,8 @@ export default {
           this.drawData(this.temps);
           break;
 
-        case '숙소':  
-          this.jejus.forEach(e => {
-            if(e.category == '숙소'){
-             
-              this.temps.push(e);
-            }
-          })
-          this.drawData(this.temps);
-          break;
-
-        case '갈곳':  
-          this.jejus.forEach(e => {
-            if(e.category == '갈곳'){
-             
-              this.temps.push(e);
-            }
-          })
-          this.drawData(this.temps);
-          break;
-
         case '기타':  
-          this.jejus.forEach(e => {
+          this.변환정보.forEach(e => {
             if(e.category == '기타'){
              
               this.temps.push(e);
@@ -225,6 +252,8 @@ export default {
           })
           this.drawData(this.temps);
           break;
+
+        
 
         default:
           this.drawData(this.jejus);
@@ -234,9 +263,9 @@ export default {
     },
     drawData(data){
 
-        var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-                center : new kakao.maps.LatLng(33.360701, 126.570667), // 지도의 중심좌표 
-                level : 11 // 지도의 확대 레벨 
+           var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+                center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
+                level : 14 // 지도의 확대 레벨 
             });
               // 지도 생성
 
@@ -248,12 +277,14 @@ export default {
                 minLevel: 10 // 클러스터 할 최소 지도 레벨 
             });
         
+
           // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
           
 
           /* 마커 관련 함수들 */
           // 마커를 표시할 위치와 title 객체 배열입니다 
           var positions = data;
+
           
             
               //var imageSrc = "marker/marker일식.png"; 
@@ -278,7 +309,7 @@ export default {
               });
 
                // 마커에 표시할 인포윈도우를 생성합니다 
-              var infoContent = '<a class="infoContent-a" href="https://map.kakao.com/link/search/'+positions[i].title+' 제주" target="_blank">' + positions[i].title + '</a><p style="font-size:9px;text-align:left">'+positions[i].info +'</p>';
+              var infoContent = '<a class="infoContent-a" href="https://map.kakao.com/link/search/'+positions[i].title+'" target="_blank">' + positions[i].title + '</a><span class="infoContent-text">('+positions[i].from+')</span><p style="font-size:9px;text-align:left">'+positions[i].info +'</p>';
               var iwRemoveable = true;
               var infowindow = new kakao.maps.InfoWindow({
                   content: infoContent, // 인포윈도우에 표시할 내용
@@ -319,8 +350,8 @@ export default {
               // 클릭이벤트 
               
               //클릭이벤트 끝
-          }
 
+          }
           clusterer.addMarkers(this.markers);
 
           /* 마커 관련 함수 끝 */
@@ -343,9 +374,14 @@ export default {
   z-index: 25;
 }
 .infoContent-a {
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 11px;
+  font-weight: 600;
   text-decoration: none;
   text-align: center;
+}
+.infoContent-text {
+
+  font-size: 9px;
+  font-weight: 300;
 }
 </style>
