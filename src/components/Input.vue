@@ -65,7 +65,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import $ from 'jquery'
+// import axios from 'axios'
 export default {
     name: 'input',
     data(){
@@ -79,6 +80,7 @@ export default {
             jejulocation : '',
             jejuaddress : '',
             jejuinfo : '',
+            jejuetc : '',
 
             }
 
@@ -89,28 +91,52 @@ export default {
     },
     methods: {
         sendJejuPost() {
-            // https://script.google.com/macros/s/AKfycbxYZ-FEzZLeEHo-f6zUOk4jBuRfA8xchPEjJ-cMmXKysixRNVoq/exec
-            // this.jejuData = {
+            this.jejuData = {
+
+                    "상호" : this.jejuname,
+                    "위치" : this.jejulocation,
+                    "분류" : this.jejucategory,
+                    "대표메뉴" : this.jejumenu,
+                    "주소" : this.jejuaddress,
+                    "기타" : this.jejuetc,
+                    "정보" : this.jejuinfo,
+            }
+            console.log(this.jejuData);
+            $.ajax({
+                type: "GET",
+                url: "https://script.google.com/macros/s/AKfycbxYZ-FEzZLeEHo-f6zUOk4jBuRfA8xchPEjJ-cMmXKysixRNVoq/exec",
+                contentType: "text/plain; charset=utf-8",
+                data: {
+                    "상호" : this.jejuname,
+                    "위치" : this.jejulocation,
+                    "분류" : this.jejucategory,
+                    "대표메뉴" : this.jejumenu,
+                    "주소" : this.jejuaddress,
+                    "기타" : this.jejuetc,
+                    "정보" : this.jejuinfo,
+                },
+                success: (response)=>{
+                    console.log(response);
+                },
+                error: (request, status, error)=>{
+                    console.log("code:" + request.status + "\n" + "error:" + error);
+                }
+            })
+            
+            
+            // axios.post('//script.google.com/macros/s/AKfycbxYZ-FEzZLeEHo-f6zUOk4jBuRfA8xchPEjJ-cMmXKysixRNVoq/exec' , {
             //     "상호" : this.jejuname,
             //     "위치" : this.jejulocation,
             //     "분류" : this.jejucategory,
             //     "대표메뉴" : this.jejumenus,
             //     "주소" : this.jejuaddress,
             //     "정보" : this.jejuinfo
-            // }
-            axios.post('//script.google.com/macros/s/AKfycbxYZ-FEzZLeEHo-f6zUOk4jBuRfA8xchPEjJ-cMmXKysixRNVoq/exec' , {
-                "상호" : this.jejuname,
-                "위치" : this.jejulocation,
-                "분류" : this.jejucategory,
-                "대표메뉴" : this.jejumenus,
-                "주소" : this.jejuaddress,
-                "정보" : this.jejuinfo
-            })
-            .then((res)=>{
-                console.log(res.data);
-            }, ()=>{
-                console.log('failed');
-            })
+            // })
+            // .then((res)=>{
+            //     console.log(res.data);
+            // }, ()=>{
+            //     console.log('failed');
+            // })
 
         }
     }

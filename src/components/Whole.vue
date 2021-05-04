@@ -6,9 +6,9 @@
 </template>
 
 <script>
-//93e7ae567c188033ab3c4af5d997866a
+//https://docs.google.com/spreadsheets/d/e/2PACX-1vRKim9JyTtMZHayUa8kck16tq74Fo2xiwQxzS27N22CJSerSO2ILnlTRZyoWRNdXgihTsE8Wztat5UL/pubhtml
 //구글 시트 키: 1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ
-//json: https://spreadsheets.google.com/feeds/list/1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ/5/public/full?alt=json
+//json: https://spreadsheets.google.com/feeds/list/1Ye1gIchikMJcoHrLDc9mkL_50q8QRtHj27l5C2kUhzA/1/public/full?alt=json
 
 import axios from 'axios'// eslint-disable-line no-unused-vars
 
@@ -32,7 +32,7 @@ export default {
 
   async created(){
     // google json data 받아오기
-      await axios.get('https://spreadsheets.google.com/feeds/list/1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ/6/public/full?alt=json')
+      await axios.get('https://spreadsheets.google.com/feeds/list/1m9hym5f6gyaBwk7ypCUNIQiTCwF5X7u60j5KDjbbPGQ/2/public/full?alt=json')
                   .then((result)=>{
                       let temp = result.data['feed']['entry'];
                       for(var i=0; i<temp.length; i++){

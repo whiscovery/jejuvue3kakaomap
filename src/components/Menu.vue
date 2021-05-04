@@ -22,7 +22,7 @@
           <router-link class="nav-link" to="/whole">전국맛집지도(제주제외)</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/input">입력</router-link>
+          <router-link class="nav-link" to="/input">입력(테스트중)</router-link>
         </li>
       </ul>
     </div>
