@@ -1,8 +1,6 @@
 <template>
-<button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData('제주')">데이터로딩(먼저 클릭!!)</button>
+<button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData('제주')">제주</button>
 <button type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData('전체')">전체</button>
-<!-- <button v-for="menu,i in menus" :key="i" type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData(menu)">{{menu}}</button> -->
-<button @click="hideMarkers()">마커 감추기</button>
 <div id="map" class="map"></div>
 <p id="result"></p>
 </template>
@@ -80,6 +78,7 @@ export default {
             }
             
           });
+          this.drawData(this.jejus);
     },
     filterData(menu)
     {

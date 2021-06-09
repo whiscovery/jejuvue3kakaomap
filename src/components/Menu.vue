@@ -1,38 +1,57 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-         <img src="../assets/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top">맛집지도</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/">Home</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/list">제주맛집리스트</router-link>
-        </li>
-        
-        <li class="nav-item">
-          <router-link class="nav-link" to="/map">제주맛집지도</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/whole">전국맛집지도(제주제외)</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/input">입력(테스트중)</router-link>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-      
-      
-      
 
- 
+  <nav>
+      
+    <div class="px-3 py-2 bg-custom text-white">
+      <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+          <!-- <img src="@/assets/logomain.png" width="50"> -->
+           <svg class="svg-logo" viewBox="0 0 20 20">
+							<path fill="#fff" d="M18.935,18.509h-3.83c0-2.819-2.285-5.105-5.104-5.105s-5.105,2.286-5.105,5.105H1.066c-0.234,0-0.425,0.19-0.425,0.426c0,0.234,0.191,0.425,0.425,0.425h17.869c0.234,0,0.425-0.19,0.425-0.425C19.359,18.699,19.169,18.509,18.935,18.509 M5.746,18.509c0-2.351,1.905-4.254,4.254-4.254s4.255,1.903,4.255,4.254H5.746zM14.813,14.298l1.805-1.806c0.166-0.166,0.166-0.436,0-0.602c-0.166-0.167-0.436-0.167-0.602,0l-1.806,1.805c-0.165,0.166-0.165,0.436,0,0.603C14.378,14.463,14.647,14.463,14.813,14.298 M9.575,9.575v2.552c0,0.235,0.19,0.426,0.425,0.426s0.425-0.19,0.425-0.426V9.575c0-0.235-0.19-0.426-0.425-0.426S9.575,9.339,9.575,9.575 M5.187,14.298c0.167,0.165,0.436,0.165,0.603,0c0.166-0.167,0.166-0.437,0-0.603l-1.806-1.805c-0.167-0.167-0.435-0.167-0.602,0c-0.166,0.166-0.166,0.436,0,0.602L5.187,14.298z M7.448,4.044h0.851v2.127c0,0.235,0.19,0.425,0.425,0.425h2.553c0.234,0,0.426-0.19,0.426-0.425V4.044h0.851c0.234,0,0.425-0.19,0.425-0.425c0-0.117-0.047-0.224-0.124-0.301l-2.553-2.552C10.224,0.688,10.117,0.641,10,0.641S9.776,0.688,9.699,0.766L7.146,3.318C7.07,3.395,7.022,3.501,7.022,3.619C7.022,3.854,7.213,4.044,7.448,4.044 M10,1.667l1.525,1.525h-0.249c-0.234,0-0.425,0.191-0.425,0.426v2.127H9.149V3.619c0-0.235-0.19-0.426-0.425-0.426H8.475L10,1.667z"></path>
+						</svg>
+            <span class="logotext">Foodprint</span>
+          </a>
+
+          <ul class="nav col-12 col justify-content-center my-md-0 text-small">
+
+            <li>
+              <router-link to="/list" class="nav-link text-white">
+               <svg class="svg-icon" viewBox="0 0 20 20">
+							<path fill="#fff" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314
+								c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743
+								s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314
+								c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+						</svg>
+                List
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/map" class="nav-link text-white">
+               <svg class="svg-icon" viewBox="0 0 20 20">
+							<path fill="#fff" d="M14.584,1.617l-4.625,2.89L5.333,2.195L0.709,4.495v13.888l4.625-2.313l4.625,1.157l4.625-1.734l4.625,1.734
+								V3.93L14.584,1.617z M18.053,15.492l-3.469-1.157l-4.625,1.734l-4.625-1.155l-3.468,1.734V5.086l3.468-1.734l4.625,2.312
+								l4.625-2.891l3.469,1.734V15.492z M10.248,6.827c-0.16,0-0.29,0.163-0.29,0.363v6.781c0,0.201,0.129,0.363,0.29,0.363
+								c0.16,0,0.289-0.162,0.289-0.363V7.19C10.537,6.99,10.408,6.827,10.248,6.827z M5.623,5.093c-0.16,0-0.29,0.163-0.29,0.363v7.938
+								c0,0.201,0.129,0.363,0.29,0.363c0.16,0,0.289-0.162,0.289-0.363V5.456C5.912,5.256,5.783,5.093,5.623,5.093z M14.584,12.815
+								c0,0.2,0.129,0.363,0.289,0.363s0.289-0.163,0.289-0.363V4.878c0-0.2-0.129-0.364-0.289-0.364s-0.289,0.164-0.289,0.364V12.815z"></path>
+						</svg>
+                Map
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/input" class="nav-link text-white">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+							<path fill="#fff" d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
+						</svg>
+                New
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -40,12 +59,35 @@ export default {
     name: 'Menu',
     data(){
         return {
+      submenu: false,
         }
     }
 
 }
 </script>
 
-<style>
-
+<style scoped>
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+.text-small {
+  font-size: 85%;
+}
+.bg-custom {
+  background-color:goldenrod;
+}
+.svg-icon {
+  color: #fff;
+  width: 20px;
+}
+.svg-logo {
+  width: 45px;
+  margin: 15px 15px 0 5px;
+}
+.logotext {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 25px;
+  margin-top: 5px;
+}
 </style>
