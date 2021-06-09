@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .bg {
   margin-top: 30px;
   width: 100%;
