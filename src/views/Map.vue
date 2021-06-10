@@ -1,6 +1,6 @@
 <template>
-<button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData('제주')">제주</button>
-<button type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="filterData('전체')">전체</button>
+<button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData('서울')">서울</button>
+<button type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="getData('제주')">제주</button>
 <div id="map" class="map"></div>
 <p id="result"></p>
 </template>
@@ -23,6 +23,7 @@ export default {
       tempdata: [],
       temps: [],
       markers: [],
+      elementId: '',
       blank: [],
       map: {},
       geocoder_temp: []
@@ -53,7 +54,6 @@ export default {
   },
   methods: {
     getData(value) {      
-
                 // 주소-좌표 변환 객체를 생성합니다
           var geocoder = new kakao.maps.services.Geocoder();
 
@@ -78,6 +78,7 @@ export default {
             }
             
           });
+          console.log(this.jejus)
           this.drawData(this.jejus);
     },
     filterData(menu)
