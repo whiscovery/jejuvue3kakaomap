@@ -17,6 +17,7 @@ export default {
     elementId: {
       type: String,
       required: true,
+      default: 'kakaomaptest'
     },
     markers: {
       type: Array,
