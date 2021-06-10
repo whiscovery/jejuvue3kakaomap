@@ -1,7 +1,7 @@
 <template>
 <div>
   <div>
-    <input class="form-control" v-model="search" placeholder="검색">
+    <input class="form-control mt-3" v-model="search" placeholder="검색">
     
     
 </div>

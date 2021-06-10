@@ -1,8 +1,13 @@
 <template>
-<button type="button" class="btn btn-warning btn-sm ms-2 mt-2 mb-2" @click="getData('서울')">서울</button>
-<button type="button" class="btn btn-outline-info btn-sm ms-2 mt-2 mb-2" @click="getData('제주')">제주</button>
+<div class="wrappers">
+  <button type="button" class="btn btn-warning button-loading mt-3 mb-3" @click="getData()" v-if="viewmenus==false">데이터로딩(먼저 클릭)</button>
+
+<span v-if="viewmenus == true"><span v-for="menu, i in menus" :key="i" class="badge rounded-pill bg-danger mt-1 ms-1" @click="filterData(menu)">{{menu}}</span></span>
+<div v-else></div>
+</div>
 <div id="map" class="map"></div>
-<p id="result"></p>
+
+
 </template>
 
 <script>
@@ -26,7 +31,7 @@ export default {
       elementId: '',
       blank: [],
       map: {},
-      geocoder_temp: []
+      viewmenus: false
     }
   },
   props: {
@@ -41,7 +46,7 @@ export default {
     //Kakao Map
     if (window.kakao && window.kakao.maps) {
       this.initMap();
-      console.log("1");
+      this.check = true;
     } else {
       const script = document.createElement('script');
       // global kakao
@@ -49,18 +54,17 @@ export default {
       script.src =
         `//dapi.kakao.com/v2/maps/sdk.js?appkey=93e7ae567c188033ab3c4af5d997866a&libraries=services,clusterer,drawing&autoload=false`;
       document.head.appendChild(script);
-      console.log("2");
+      this.check = true;
     }
   },
   methods: {
-    getData(value) {      
+    getData() { 
                 // 주소-좌표 변환 객체를 생성합니다
           var geocoder = new kakao.maps.services.Geocoder();
 
           this.foods.forEach((element)=>{ // eslint-disable-line no-unused-vars
             var coords={};
             var temp={}
-            if(element.위치 == value) {
               // 주소로 좌표를 검색합니다
             geocoder.addressSearch(element.주소, (result, status)=> {
                 // 정상적으로 검색이 완료됐으면 
@@ -75,11 +79,15 @@ export default {
                     this.jejus.push(temp);
                 }
             });
-            }
             
           });
-          console.log(this.jejus)
-          this.drawData(this.jejus);
+      setTimeout(() => {
+        alert("데이터로딩 완료")
+        this.viewmenus = true;
+      }, 1000) 
+          // console.log(this.jejus)
+          // this.drawData(this.jejus);
+        
     },
     filterData(menu)
     {
@@ -101,6 +109,36 @@ export default {
         case '소고기':  
           this.jejus.forEach(e => {
             if(e.category == '소고기'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '실내포장마차':  
+          this.jejus.forEach(e => {
+            if(e.category == '실내포장마차'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '노포':  
+          this.jejus.forEach(e => {
+            if(e.category == '노포'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '국밥':  
+          this.jejus.forEach(e => {
+            if(e.category == '국밥'){
              
               this.temps.push(e);
             }
@@ -141,6 +179,16 @@ export default {
         case '일식':  
           this.jejus.forEach(e => {
             if(e.category == '일식'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
+        case '이자카야':  
+          this.jejus.forEach(e => {
+            if(e.category == '이자캬야'){
              
               this.temps.push(e);
             }
@@ -198,6 +246,16 @@ export default {
           this.drawData(this.temps);
           break;
 
+        case '바':  
+          this.jejus.forEach(e => {
+            if(e.category == '바'){
+             
+              this.temps.push(e);
+            }
+          })
+          this.drawData(this.temps);
+          break;
+
         case '카페':  
           this.jejus.forEach(e => {
             if(e.category == '카페'){
@@ -247,8 +305,8 @@ export default {
     drawData(data){
           
            var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-                center : new kakao.maps.LatLng(33.360701, 126.570667), // 지도의 중심좌표 
-                level : 10 // 지도의 확대 레벨 
+                center : new kakao.maps.LatLng(35.63919598808177, 127.73894402702498), // 지도의 중심좌표 
+                level : 13 // 지도의 확대 레벨 
             });
               // 지도 생성
 
@@ -343,14 +401,6 @@ export default {
           
 
     },
-    setMarkers(map) {
-      for (var i=0; i<this.markers.length; i++){
-        this.markers[i].setMap(map);
-      }
-    },
-    hideMarkers() {
-      this.setMarkers(null)
-    },
     async initMap() {
       this.drawData();
 
@@ -363,9 +413,15 @@ export default {
 </script>
 
 <style>
+.wrappers {
+  margin: 0 auto;
+}
+.button-loading {
+  width: 100%;
+}
 .map {
   width: 100%;
-  height: 800px;
+  height: 700px;
 }
 .information {
   font-size: 10px;
