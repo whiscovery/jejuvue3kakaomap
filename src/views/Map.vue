@@ -350,7 +350,7 @@ export default {
                     });
 
                     // 마커에 표시할 인포윈도우를 생성합니다 
-                    var infoContent = '<a class="infoContent-a" href="https://map.kakao.com/link/search/'+positions[i].title+'" target="_blank">' + positions[i].title + '</a><span class="infoContent-text">('+positions[i].from+')</span><p style="font-size:9px;text-align:left">'+positions[i].info +'</p>';
+                    var infoContent = '<a class="infoContent-a" href="https://map.kakao.com/link/search/'+positions[i].title+'" target="_blank">' + positions[i].title + '</a><span class="infoContent-text">('+positions[i].etc+')</span><p style="font-size:9px;text-align:left">'+positions[i].info +'</p>';
                     var iwRemoveable = true;
                     var infowindow = new kakao.maps.InfoWindow({
                         content: infoContent, // 인포윈도우에 표시할 내용
@@ -434,5 +434,9 @@ export default {
   font-weight: 300;
   text-decoration: none;
   text-align: center;
+}
+.infoContent-text {
+  font-size: 9px;
+  color:darkorange
 }
 </style>
