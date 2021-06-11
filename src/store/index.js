@@ -17,6 +17,10 @@ export default createStore({
     FETCH_FOODS_LOCATION (state, payload) {
       state.foodslocation = payload
     },
+    DELETE_FOOD (state, food_ID) {
+      const targetIndex = state.foods.findIndex(food => food._id === food_ID)
+      state.foods.splice(targetIndex, 1)
+    },
     FETCH_SECOND_FOODS (state, payload) {
       state.secondfoods = payload
     },
@@ -44,6 +48,16 @@ export default createStore({
         console.log(err)
       })
     },
+    deleteFood ({ commit }, payload) {
+      console.log(payload)
+      if(confirm("삭제하시겠습니까?")) {
+        axios.delete(baseurl + `/food/delete/${payload}`)
+        .then((res) => {
+          console.log(res)
+          commit('DELETE_FOOD', payload)
+        })
+      }
+    },
     fetchSecondFoods ({ commit }) {
       axios.get(baseurl + '/secondfoods')
       .then((res) => {
@@ -63,11 +77,13 @@ export default createStore({
     // }
     deleteSecondFood ({ commit }, payload) {
       console.log(payload)
-      axios.delete(baseurl + `/second/delete/${payload}`)
-      .then(res => {
-        console.log(res);
-        commit('DELETE_SECOND', payload)
-      })
+      if(confirm("삭제하시겠습니까?")) {
+        axios.delete(baseurl + `/second/delete/${payload}`)
+        .then(res => {
+          console.log(res);
+          commit('DELETE_SECOND', payload)
+        })
+      }
     }
   }
 })
