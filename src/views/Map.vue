@@ -74,6 +74,7 @@ export default {
                       title: element.상호,
                       category: element.분류,
                       info: element.정보,
+                      etc: element.기타,
                       latlng: coords
                     };
                     this.jejus.push(temp);
