@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <div class="jeju-input">
-        <form class="row g-3" id="jejuForm" @submit="btnOK">
+        <form class="row g-3" id="jejuForm" @submit.prevent="btnOK">
             <div class="col-md-12 form-floating">
                 <input type="text" class="form-control" v-model="상호" placeholder="상호">
                 <label for="jejuname">상호</label>
@@ -66,7 +66,7 @@ export default {
     name: 'Input',
     data () {
         return {
-            imgfile: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+            imgfile: '',
             상호 : '',
             분류 : '',
             대표메뉴: '',
@@ -85,14 +85,14 @@ export default {
     methods: {
         btnOK () {
             const data = {
-                상호 : this.상호,
-                분류 : this.분류,
-                대표메뉴: this.대표메뉴,
-                위치 : this.위치,
-                주소 : this.주소,
-                정보 : this.정보,
-                기타 : this.기타,
-                이미지: this.imgfile
+                상호 : this.상호 ? this.상호 : '없음',
+                분류 : this.분류 ? this.분류 : '없음',
+                대표메뉴: this.대표메뉴 ? this.대표메뉴 : '없음',
+                위치 : this.위치 ? this.위치 : '없음',
+                주소 : this.주소 ? this.주소 : '없음',
+                정보 : this.정보 ? this.정보 : '없음',
+                기타 : this.기타 ? this.기타 : '없음',
+                이미지: this.imgfile ? this.imgfile : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
             }
             console.log(data)
             axios.post(baseurl + '/writepost', data)
