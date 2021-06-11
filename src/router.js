@@ -5,6 +5,10 @@ import Home from '@/views/Home'
 import Whole from '@/views/Whole'
 import Input from '@/views/Input'
 import Maps from '@/views/Maps'
+import SecondFood from '@/views/SecondFood'
+import SecondMap from '@/components/second/SecondMap'
+import SecondList from '@/components/second/SecondList'
+import SecondInsert from '@/components/second/SecondInsert'
 const routes = [
   {
     path: "/",
@@ -35,7 +39,17 @@ const routes = [
     path: "/maps",
     name: 'Maps',
     component: Maps,
-  }
+  },
+  {
+    path: "/secondfood",
+    name: 'SecondFood',
+    component: SecondFood,
+    children: [
+      { path: 'insert', name: 'SecondInsert', component: SecondInsert },
+      { path: 'list', name: 'SecondList', component: SecondList },
+      { path: 'secondmap', name: 'SecondMap', component: SecondMap }
+    ]
+  },
 ];
 
 const router = createRouter({

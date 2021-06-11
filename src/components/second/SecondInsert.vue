@@ -1,7 +1,8 @@
 <template>
   <div class="container mt-5">
+      <h3>후보지 입력</h3>
     <div class="jeju-input">
-        <form class="row g-3" id="jejuForm" @submit.prevent="btnOK">
+        <form class="row g-3" id="jejuForm" @submit.prevent="btnSecondOK">
             <div class="col-md-12 form-floating">
                 <input type="text" class="form-control" v-model="상호" placeholder="상호">
                 <label for="jejuname">상호</label>
@@ -63,7 +64,7 @@ import UploadPhoto from '@/components/UploadPhoto'
 import { baseurl } from '@/config/index'
 import axios from 'axios'
 export default {
-    name: 'Input',
+    name: 'SecondInsert',
     data () {
         return {
             imgfile: '',
@@ -74,7 +75,7 @@ export default {
             주소 : '',
             정보 : '',
             기타 : '',
-            순위 : 1
+            순위 : 2
         }
     },
     components: {
@@ -84,7 +85,7 @@ export default {
         menus: Array
     },
     methods: {
-        btnOK () {
+        btnSecondOK () {
             const data = {
                 상호 : this.상호 ? this.상호 : '없음',
                 분류 : this.분류 ? this.분류 : '없음',
@@ -93,11 +94,11 @@ export default {
                 주소 : this.주소 ? this.주소 : '없음',
                 정보 : this.정보 ? this.정보 : '없음',
                 기타 : this.기타 ? this.기타 : '없음',
-                순위 : this.순위 ? this.순위 : 1,                
+                순위 : this.순위 ? this.순위 : 2,                
                 이미지: this.imgfile ? this.imgfile : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
             }
             console.log(data)
-            axios.post(baseurl + '/writepost', data)
+            axios.post(baseurl + '/writesecondfood', data)
             .then((res) => {
                 console.log(res)
                 alert("입력되었습니다");
